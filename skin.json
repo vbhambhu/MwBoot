@@ -1,0 +1,42 @@
+{
+	"name": "MwBoot",
+	"author": "Vinod Kumar",
+	"url": "https://www.mediawiki.org/wiki/Skin:FooBar",
+	"descriptionmsg": "foobar-desc",
+	"namemsg": "skinname-foobar",
+	"license-name": "GPL-2.0+",
+	"type": "skin",
+	"ValidSkinNames": {
+		"mwboot": "MwBoot"
+	},
+	"MessagesDirs": {
+		"MwBoot": [
+			"i18n"
+		]
+	},
+	"ResourceModules": {
+		"skins.mwboot": {
+				"styles": {
+						"resources/css/bootstrap.min.css": { "media": "screen" },
+						"resources/css/font-awesome.min.css": { "media": "screen" },
+						"resources/css/style.css": { "media": "screen" }
+				}
+		},
+		"skins.mwboot.js": {
+			"scripts": [
+				"resources/js/tether.min.js",
+				"resources/js/bootstrap.min.js",
+				"resources/js/app.js"
+			],
+			"position": "top"
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteSkinPath": "MwBoot"
+	},
+	"AutoloadClasses": {
+		"SkinMwBoot": "SkinMwBoot.php",
+		"MwBootTemplate": "MwBootTemplate.php"
+	}
+}

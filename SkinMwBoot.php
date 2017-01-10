@@ -1,8 +1,6 @@
 <?php
 
-
 class SkinMwBoot extends SkinTemplate {
-
 
 	public $skinname = 'mwboot';
 	public $stylename = 'MwBoot';
@@ -14,9 +12,7 @@ class SkinMwBoot extends SkinTemplate {
 		$out->addModules( 'skins.mwboot.js' );
 	}
 
-
-
-	function setupSkinUserCss( OutputPage $out ) {
+	public function setupSkinUserCss( OutputPage $out ) {
 		parent::setupSkinUserCss( $out );
 		$out->addModuleStyles( 'skins.mwboot');
 	}

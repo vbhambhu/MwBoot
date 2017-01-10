@@ -1,6 +1,5 @@
 <?php
 
-
 class MwBootTemplate extends BaseTemplate {
 
 	private $basePath;
@@ -16,7 +15,6 @@ class MwBootTemplate extends BaseTemplate {
 
 		$this->basePath = str_replace( '$1', '', $wgArticlePath );
 		$this->basePath1 = rtrim($this->basePath, "/");
-		
 		$this->wgEnableUploads = $wgEnableUploads;
 		$this->wgUser = $wgUser;
 	}
@@ -24,15 +22,10 @@ class MwBootTemplate extends BaseTemplate {
 	public function execute() {
 
 		$this->pageTitle = $this->getSkin()->getTitle();
-
 		//echo '<pre>'; print_r($this->text( 'logopath' ));
 		//echo '<pre>'; print_r($this->pageTitle->getLinkURL());
 		$this->currentPage = str_replace("/index.php/", "", $this->pageTitle->getLinkURL());
-
 		//echo $this->currentPage;
-
-		
-
 		$this->html('headelement');
 		$this->topNavigation();
 		$this->startContent();
@@ -71,7 +64,14 @@ class MwBootTemplate extends BaseTemplate {
 <?php } ?>
 </ul>
 <?php } ?>
+<div id="content">
 <div class="well">
+<div class="page-header">
+<h1 id="firstHeading" class="firstHeading"><?php $this->html( 'title' ); ?></h1>
+</div>
+<div id="contentSub"></div>
+<div id="bodyContent">
+
 
     		<?php
 
@@ -80,43 +80,26 @@ class MwBootTemplate extends BaseTemplate {
 
 
        		echo $this->html( 'bodycontent' );
-       		echo '</div>';
+       		echo '</div></div></div>';
        
     }
 			
 			 ?>
 			
 				
+			
+
+
 			</div>
 			<div class="col-md-3">
-
-			<?php 
-			echo '<div class="sidebar-well">';
-			?>
-			<div class="text-center">
-			<img src="<?php echo $this->text( 'logopath' ); ?>" class="img-fluid" />
-			</div>
-
-			<?php
-       		echo $this->sidebar( $this->get_page_links( 'Bootstrap:Sidebar' ));
-       		echo '</div>';
-       		?>
-
-
-				<?php //echo $this->sidebar(); ?>
+				<?php echo $this->sidebar(); ?>
 			</div>
 		</div>
 		<hr>
-
-
-
-	<?php echo $this->footer(); ?>
-		
+		<?php echo $this->footer(); ?>
 		</div>
-		
 		</body>
 		</html>
-
 		<?php
 	}
 
@@ -129,7 +112,9 @@ class MwBootTemplate extends BaseTemplate {
 	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleContainer" aria-controls="navbarsExampleContainer" aria-expanded="false" aria-label="Toggle navigation">
 	<span class="navbar-toggler-icon"></span>
 	</button>
-	<a class="navbar-brand" href="<?php echo $this->data['nav_urls']['mainpage']['href'] ?>" title="<?php $this->shortName; ?>"><?php echo $this->shortName; ?></a>
+	<a class="navbar-brand" href="<?php echo $this->data['nav_urls']['mainpage']['href'] ?>">
+		<?php echo $this->shortName; ?>
+	</a>
 	<div class="collapse navbar-collapse" id="navbarsExampleContainer">
 	<ul class="navbar-nav mr-auto">
 	<li class="nav-item">
@@ -207,7 +192,7 @@ private function homeSearch(){ ?>
 			echo "<b>Bootstrap:Home</b> not created."; return;
 		}
 
-		$output = '<h3>Categories</h3><hr><div class="row">';
+		$output = '<div class="page-header"><h3>Categories</h3></div><div class="row">';
 
 		foreach ($categories as $category) {
 			$output .= '<div class="col-md-6 hcat">';
@@ -358,44 +343,31 @@ private function homeSearch(){ ?>
 	}
 
 
-	private function sidebar( $links ) {
+	private function sidebar() { ?>
 
-		$output = '<ul class="nav flex-column">';
+		<div class="sidebar-well">
+			<div class="text-center">
+				<img src="<?php echo $this->text( 'logopath' ); ?>" class="img-fluid logo" />
+			</div>
 
-		if(!$links){
-			$output .= "<b>Bootstrap:Sidebar</b> not created."; 
-			return $output;
-		}
+			<?php $this->includePage('Bootstrap:Sidebar'); ?>
 
-		$output .= '<ul class="nav sidenav flex-column nav-pills">';
-		$output .= '<li class="nav-item">';
-		$output .= '<a class="nav-link active" href="s"><i class="fa fa-arrow-right" aria-hidden="true"></i> Home</a>';
-		$output .= '</li>';
-		foreach ($links as $link) {
+		</div>
 
-			//echo '<pre>'; print_r($link);
-			$output .= '<li class="nav-item">';
-			$output .= '<a class="nav-link" href="'.$link["link"].'"><i class="fa fa-arrow-right" aria-hidden="true"></i> '.$link["title"].'</a>';
-			$output .= '</li>';
-		}
-		$output .= '</ul>';
-
-		return $output;
+		<?php
 	}
-
 
 
 	public function footer(){
 
 		$footer = $this->printTrail();
-
 		$footer .= '&copy; Copyright, '.date('Y').' - <a href="https://www.kennedy.ox.ac.uk/" target="_blank">The Kennedy Institute of Rheumatology</a>';
 		return $footer;
 
 	}
 
 
-	function includePage($title) {
+	public function includePage($title) {
 		global $wgParser, $wgUser;
 		$pageTitle = Title::newFromText($title);
 		if(!$pageTitle->exists()) {
@@ -408,12 +380,5 @@ private function homeSearch(){ ?>
 		}
 	}
 
-
-	private function get_array_links( $array, $title, $which ) {
-		
-		echo '<pre>'; print_r($array);
-		
-
-	}
 
 }
